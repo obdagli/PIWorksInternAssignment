@@ -13,7 +13,7 @@ def isPrime(num):
         return True
     else:
         return False
-with open("/home/burak/YTU Overall/Staj/P.I. Works/input2.txt", "r") as file:
+with open("--filenamehere.txt", "r") as file:
     depth = len(file.readlines())
     file.seek(0)
     #creating a rows*column matrix for incoming input (each row will be equal to pyramid's row)
