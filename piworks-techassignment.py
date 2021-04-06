@@ -1,17 +1,20 @@
+#----UPDATED VERSION----#
+
 #File name-->
-with open("--filenameHERE.txt", "r") as file:
+with open("--FILENAMEHERE.txt", "r") as file:
     depth = len(file.readlines())
     file.seek(0)
     #creating a rows*column matrix for incoming input (each row will be equal to pyramid's row)
     rows, cols = (depth, depth)
-    pyr = [[0 for i in range(cols)] for j in range(rows)]
+    #I've added a row that contains full of zero because we're treating our pyramid as "reversed-pyramid"(upside down)
+    pyr = [[0 for i in range(cols+1)] for j in range(rows+1)]
     x=0 # this is for row
     for line in file: # columns for each row
         #I assumed there are no special characters in "filename.txt" file, so i use split method to split each number for our 2d array.
         data = line.split()
         length = len(data)
-        for t in range(0,length,1):
-            pyr[x][t] = int(data[t])
+        for t in range(0,length):
+                pyr[x][t] = int(data[t])
 
         #This is for first question. Char-by-char read to know input is digit(because there are special characters like *1) or not.
         #To avoid blank and special characters.
@@ -30,13 +33,15 @@ with open("--filenameHERE.txt", "r") as file:
 #so that'll help us to solve the summation with less complexity
 #P.S. : We could use 1d array to solve that problem. In that case, we'd to find the formula to reach each rows starting number
 def pyrsum(pyr,depth):
-    for i in range(depth-2, -1, -1):
+    for i in range(depth-1, -1, -1):
         for j in range(i+1):
-            if(isprime(pyr[i][j]) == False):#If the number is prime we've to skip it. If the given number isn't prime, we can add the bigger one to the next line.
+            if(isprime(pyr[i][j]) == False):#If the number is prime we've to skip it. We changed its value to 0 rather than skipping.If the given number isn't prime, we can add the bigger one to the next line.
                 if (pyr[i+1][j] > pyr[i+1][j+1]):
                     pyr[i][j] += pyr[i+1][j]
                 else:
                     pyr[i][j] += pyr[i+1][j+1]
+            else:
+                pyr[i][j] = 0
     print(pyr[0][0])
 
 def isprime(num):
@@ -45,7 +50,8 @@ def isprime(num):
         for k in range(2, int(num/2)+1):
             if (num % k) == 0:
                 return False
-    elif(num == 2):
+        return True
+    elif(num == 2 or num == 0):
         return True
     else:
         return False
